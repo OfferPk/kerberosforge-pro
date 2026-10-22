@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="1000" height="650">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050a14" />
+      <stop offset="100%" stop-color="#091322" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#122442" />
+      <stop offset="100%" stop-color="#08101e" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="650" fill="url(#bgGrad)" />
+
+  <text x="500" y="45" fill="#f8fafc" font-family="-apple-system, sans-serif" font-weight="900" font-size="22" text-anchor="middle">Zero-Trust Kerberos V5 Domain Architecture (IETF RFC 4120)</text>
+  <text x="500" y="70" fill="#94a3b8" font-family="-apple-system, sans-serif" font-size="13" text-anchor="middle">KDC (AS/TGS), PKINIT (RFC 4556), gMSA Immunity, PAC Validation &amp; FAST Armoring</text>
+
+  <!-- Top Left: Client / Workstation -->
+  <rect x="80" y="110" width="280" height="130" rx="10" fill="url(#nodeGrad)" stroke="#38bdf8" stroke-width="2" />
+  <rect x="100" y="125" width="240" height="24" rx="4" fill="#0284c7" />
+  <text x="220" y="142" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Enterprise Client / Workstation</text>
+  <text x="220" y="170" fill="#38bdf8" font-family="monospace" font-weight="bold" font-size="11" text-anchor="middle">Client Principal: alice@CORP.LOCAL</text>
+  <text x="220" y="190" fill="#34d399" font-family="sans-serif" font-size="10" text-anchor="middle">RFC 4556 PKINIT / FIDO2 / Windows Hello</text>
+  <text x="220" y="210" fill="#fbbf24" font-family="monospace" font-size="10" text-anchor="middle">Pre-Auth: PA-ENC-TIMESTAMP / AES-256</text>
+
+  <!-- Top Right: Active Directory KDC -->
+  <rect x="520" y="110" width="400" height="220" rx="10" fill="url(#nodeGrad)" stroke="#fbbf24" stroke-width="2" />
+  <rect x="540" y="125" width="360" height="26" rx="4" fill="url(#goldGrad)" />
+  <text x="720" y="143" fill="#050a14" font-family="sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Active Directory KDC (Port 88 TCP/UDP)</text>
+  
+  <!-- Sub-block: Authentication Service -->
+  <rect x="540" y="165" width="170" height="75" rx="6" fill="#060e1c" stroke="#192c4e" />
+  <text x="625" y="185" fill="#38bdf8" font-family="sans-serif" font-weight="bold" font-size="11" text-anchor="middle">Authentication Service (AS)</text>
+  <text x="625" y="205" fill="#94a3b8" font-family="sans-serif" font-size="9" text-anchor="middle">Verifies Pre-Auth Timestamp</text>
+  <text x="625" y="225" fill="#34d399" font-family="monospace" font-size="9" text-anchor="middle">Issues TGT (krbtgt key)</text>
+
+  <!-- Sub-block: Ticket Granting Service -->
+  <rect x="730" y="165" width="170" height="75" rx="6" fill="#060e1c" stroke="#192c4e" />
+  <text x="815" y="185" fill="#fbbf24" font-family="sans-serif" font-weight="bold" font-size="11" text-anchor="middle">Ticket Granting Service (TGS)</text>
+  <text x="815" y="205" fill="#94a3b8" font-family="sans-serif" font-size="9" text-anchor="middle">Validates TGT + Authenticator</text>
+  <text x="815" y="225" fill="#34d399" font-family="monospace" font-size="9" text-anchor="middle">Issues Service Ticket (SPN)</text>
+
+  <!-- KDC Zero-Trust Features -->
+  <text x="720" y="265" fill="#34d399" font-family="monospace" font-size="10" text-anchor="middle">✓ PAC Validation (KB5008380 / PacRequestorEnforcement=2)</text>
+  <text x="720" y="285" fill="#38bdf8" font-family="monospace" font-size="10" text-anchor="middle">✓ FAST Armoring (RFC 6113) Computer Account Tunnel</text>
+  <text x="720" y="305" fill="#f43f5e" font-family="monospace" font-size="10" text-anchor="middle">✓ krbtgt Scheduled Dual-Rotation (&lt;= 180 Days)</text>
+
+  <!-- Arrows: Client <-> KDC -->
+  <line x1="360" y1="160" x2="520" y2="160" stroke="#38bdf8" stroke-width="2" />
+  <text x="440" y="150" fill="#38bdf8" font-family="monospace" font-size="9" text-anchor="middle">(1) AS-REQ</text>
+
+  <line x1="520" y1="185" x2="360" y2="185" stroke="#34d399" stroke-width="2" />
+  <text x="440" y="200" fill="#34d399" font-family="monospace" font-size="9" text-anchor="middle">(2) AS-REP (TGT)</text>
+
+  <line x1="360" y1="210" x2="520" y2="210" stroke="#fbbf24" stroke-width="2" />
+  <text x="440" y="225" fill="#fbbf24" font-family="monospace" font-size="9" text-anchor="middle">(3) TGS-REQ (SPN)</text>
+
+  <line x1="520" y1="235" x2="360" y2="235" stroke="#34d399" stroke-width="2" />
+  <text x="440" y="250" fill="#34d399" font-family="monospace" font-size="9" text-anchor="middle">(4) TGS-REP (Service Ticket)</text>
+
+  <!-- Bottom: Target Enterprise Services -->
+  <rect x="80" y="420" width="840" height="180" rx="10" fill="url(#nodeGrad)" stroke="#10b981" stroke-width="2" />
+  <rect x="100" y="435" width="800" height="26" rx="4" fill="#059669" />
+  <text x="500" y="453" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="12" text-anchor="middle">Target Enterprise Services &amp; Applications (Kerberoasting Immune)</text>
+
+  <!-- Service 1: MSSQL gMSA -->
+  <rect x="100" y="480" width="250" height="100" rx="6" fill="#060e1c" stroke="#192c4e" />
+  <text x="225" y="505" fill="#34d399" font-family="sans-serif" font-weight="bold" font-size="11" text-anchor="middle">MSSQL Database Cluster</text>
+  <text x="225" y="525" fill="#fbbf24" font-family="monospace" font-size="9" text-anchor="middle">SPN: MSSQLSvc/sql01.corp.local</text>
+  <text x="225" y="545" fill="#34d399" font-family="sans-serif" font-size="10" text-anchor="middle">gMSA Protected (120-char key)</text>
+  <text x="225" y="565" fill="#94a3b8" font-family="monospace" font-size="9" text-anchor="middle">Cracking: &gt; 100,000 Years</text>
+
+  <!-- Service 2: Web / CIFS File Server -->
+  <rect x="375" y="480" width="250" height="100" rx="6" fill="#060e1c" stroke="#192c4e" />
+  <text x="500" y="505" fill="#38bdf8" font-family="sans-serif" font-weight="bold" font-size="11" text-anchor="middle">Enterprise Storage (SMB/CIFS)</text>
+  <text x="500" y="525" fill="#fbbf24" font-family="monospace" font-size="9" text-anchor="middle">SPN: cifs/storage01.corp.local</text>
+  <text x="500" y="545" fill="#38bdf8" font-family="sans-serif" font-size="10" text-anchor="middle">Resource-Based Delegation (RBCD)</text>
+  <text x="500" y="565" fill="#34d399" font-family="monospace" font-size="9" text-anchor="middle">Zero Unconstrained Delegation</text>
+
+  <!-- Service 3: SIEM Telemetry -->
+  <rect x="650" y="480" width="250" height="100" rx="6" fill="#060e1c" stroke="#192c4e" />
+  <text x="775" y="505" fill="#c084fc" font-family="sans-serif" font-weight="bold" font-size="11" text-anchor="middle">SIEM &amp; Threat Detection</text>
+  <text x="775" y="525" fill="#fbbf24" font-family="monospace" font-size="9" text-anchor="middle">Prometheus / Event Log 4769</text>
+  <text x="775" y="545" fill="#c084fc" font-family="sans-serif" font-size="10" text-anchor="middle">Monitors RC4 Ticket Requests</text>
+  <text x="775" y="565" fill="#f43f5e" font-family="monospace" font-size="9" text-anchor="middle">Real-time Kerberoast Alerts</text>
+
+  <!-- Line from Client to Services -->
+  <line x1="220" y1="240" x2="220" y2="420" stroke="#34d399" stroke-width="2" />
+  <text x="240" y="340" fill="#34d399" font-family="monospace" font-size="9">(5) AP-REQ (Service Ticket)</text>
+</svg>
